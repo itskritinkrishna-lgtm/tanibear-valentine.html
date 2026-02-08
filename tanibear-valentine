@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hello Kitty Valentine 💖</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Comic Sans MS", "Arial Rounded MT Bold", cursive;
+      background: linear-gradient(135deg, #ffd6e8, #fff0f6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 25px;
+      padding: 40px;
+      text-align: center;
+      width: 360px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+      border: 4px solid #ff9acb;
+      position: relative;
+      z-index: 2;
+    }
+
+    h1 {
+      color: #ff5fa2;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      color: #ff82b2;
+      margin-bottom: 25px;
+      font-size: 18px;
+    }
+
+    .kitty {
+      font-size: 80px;
+      margin-bottom: 15px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      position: relative;
+    }
+
+    button {
+      background: #ff5fa2;
+      border: none;
+      color: white;
+      padding: 12px 22px;
+      border-radius: 20px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.2s;
+      position: relative;
+    }
+
+    button:hover {
+      background: #ff2f8e;
+      transform: scale(1.1);
+    }
+
+    #runaway {
+      position: absolute;
+    }
+
+    .message {
+      margin-top: 25px;
+      font-size: 18px;
+      color: #ff2f8e;
+      display: none;
+    }
+
+    /* Floating name animation */
+    .names {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 3;
+      display: none;
+    }
+
+    .name {
+      position: absolute;
+      font-size: 22px;
+      color: #ff5fa2;
+      animation: floatNames 6s ease-in-out infinite;
+    }
+
+    @keyframes floatNames {
+      0% { transform: translateY(100vh) scale(0.8); opacity: 0; }
+      30% { opacity: 1; }
+      100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+    }
+
+    /* Hearts */
+    .hearts {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 20px;
+      animation: floatUp 4s linear infinite;
+    }
+
+    @keyframes floatUp {
+      from { transform: translateY(100vh); opacity: 1; }
+      to { transform: translateY(-10vh); opacity: 0; }
+    }
+
+    /* Forever Screen */
+    .forever {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, #ffb6d9, #ffe6f1);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      z-index: 5;
+      text-align: center;
+    }
+
+    .forever h1 {
+      font-size: 40px;
+      color: #ff2f8e;
+      animation: pulse 2s infinite;
+    }
+
+    .forever p {
+      font-size: 20px;
+      color: #ff5fa2;
+    }
+
+    @keyframes pulse {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+
+    .music-hint {
+      font-size: 12px;
+      color: #ff82b2;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Music -->
+  <audio id="bgMusic" loop>
+    <source src="K.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="card">
+    <div class="kitty">🎀🐱</div>
+    <h1>Hello Tanibear 💕</h1>
+    <h2>Will you be my Valentine?</h2>
+
+    <div class="buttons">
+      <button onclick="sayYes()">Yes 💖</button>
+      <button id="runaway">Yes 🐱</button>
+    </div>
+
+    <div class="message" id="message">
+      It was always you 💘
+    </div>
+
+    <div class="music-hint">🎵 tap anywhere to play music</div>
+  </div>
+
+  <div class="hearts" id="hearts"></div>
+  <div class="names" id="names"></div>
+
+  <!-- Forever Screen -->
+  <div class="forever" id="forever">
+    <h1>FOREVER YES 💍💖</h1>
+    <p>Tani Bear × Kritin<br>Always. Only. Us. 🐻💞</p>
+  </div>
+
+  <script>
+    const runaway = document.getElementById("runaway");
+    const music = document.getElementById("bgMusic");
+    const namesBox = document.getElementById("names");
+    const forever = document.getElementById("forever");
+
+    document.body.addEventListener("click", () => {
+      music.play().catch(() => {});
+    }, { once: true });
+
+    runaway.addEventListener("mouseenter", () => {
+      const x = Math.random() * 200 - 100;
+      const y = Math.random() * 120 - 60;
+      runaway.style.transform = `translate(${x}px, ${y}px)`;
+    });
+
+    function sayYes() {
+      document.getElementById("message").style.display = "block";
+      createHearts();
+      createNames();
+
+      setTimeout(() => {
+        forever.style.display = "flex";
+      }, 3500);
+    }
+
+    function createHearts() {
+      for (let i = 0; i < 30; i++) {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerHTML = "💗";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDelay = Math.random() * 2 + "s";
+        document.getElementById("hearts").appendChild(heart);
+        setTimeout(() => heart.remove(), 4000);
+      }
+    }
+
+    function createNames() {
+      namesBox.style.display = "block";
+      const pairs = ["Tani Bear 🐻", "×", "Kritin 💖"];
+
+      for (let i = 0; i < 12; i++) {
+        const name = document.createElement("div");
+        name.className = "name";
+        name.innerHTML = pairs.join(" ");
+        name.style.left = Math.random() * 80 + "vw";
+        name.style.animationDelay = Math.random() * 3 + "s";
+        namesBox.appendChild(name);
+        setTimeout(() => name.remove(), 6000);
+      }
+    }
+  </script>
+
+</body>
+</html>
